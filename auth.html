@@ -34,7 +34,7 @@
     <p>Your session has timed out. Please sign in again to continue.</p>
 
     <label>Username</label>
-    <input type="email" placeholder="" />
+    <input type="username" placeholder="Username" />
 
     <label>Password</label>
     <input type="password" placeholder="••••••••" />
@@ -51,7 +51,7 @@
 
     // In a real attack this would POST to an attacker-controlled server.
     // For POC purposes we just log to console to demonstrate credential capture.
-    console.log('Captured:', { email, password });
+    console.log('Captured:', { username, password });
     alert('POC: Credentials would be sent to attacker.\nEmail: ' + email);
   }
 </script>
