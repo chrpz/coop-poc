@@ -49,10 +49,29 @@
     const email    = document.querySelectorAll('input')[0].value;
     const password = document.querySelectorAll('input')[1].value;
 
-    // In a real attack this would POST to an attacker-controlled server.
-    // For POC purposes we just log to console to demonstrate credential capture.
-    console.log('Captured:', { username, password });
-    alert('POC: Credentials would be sent to attacker.\nEmail: ' + email);
+    if (!email || !password) {
+      alert('Please enter your email and password.');
+      return;
+    }
+
+    document.querySelector('button').textContent = 'Signing in...';
+    document.querySelector('button').disabled = true;
+
+    setTimeout(() => {
+      document.querySelector('.card').innerHTML = `
+        <h2 style="color:#c0392b;">⚠️ POC Demonstration</h2>
+        <p style="margin-top:12px;">
+          This is a security proof-of-concept only. No data was collected or stored.
+        </p>
+        <p style="margin-top:16px; font-size:13px; color:#555;">
+          In a real attack scenario, the credentials entered here would have been
+          sent to an attacker-controlled server without the user's knowledge.
+        </p>
+        <p style="margin-top:16px; font-size:11px; color:#999;">
+          This page simulates the final stage of a Missing COOP Header attack.
+        </p>
+      `;
+    }, 1500);
   }
 </script>
 </body>
