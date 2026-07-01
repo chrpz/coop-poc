@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Missing COOP Header - Security Advisory</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 60px auto; padding: 0 20px; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; }
+    .warn { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 20px 0; }
+    .fix  { background: #d4edda; border-left: 4px solid #28a745; padding: 12px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h1>🔓 Missing Cross-Origin-Opener-Policy (COOP) Header</h1>
+
+  <div class="warn">
+    ⚠️ <strong>Security Advisory</strong> — This finding has been identified on your web application
+    and should be remediated at your earliest convenience.
+  </div>
+
+  <h2>What is the Risk?</h2>
+  <p>
+    Your application is missing the <strong>Cross-Origin-Opener-Policy (COOP)</strong> HTTP response header.
+    Without it, an external malicious website that tricks a user into clicking a link can open your application
+    in a new browser window — and silently navigate it to a phishing page while the user believes they are
+    still on your legitimate site.
+  </p>
+  <p>
+    This can lead to <strong>credential theft, session hijacking, or user impersonation</strong>
+    without any visible warning to the victim.
+  </p>
+
+  <h2>Impact</h2>
+  <ul>
+    <li>Users can be silently redirected away from your application</li>
+    <li>Sensitive information may be harvested via a lookalike phishing page</li>
+    <li>No user interaction beyond the initial click is required</li>
+  </ul>
+
+  <h2>Recommended Fix</h2>
+  <div class="fix">
+    ✅ Add the following HTTP response header to your web server or application:
+    <br><br>
+    <code>Cross-Origin-Opener-Policy: same-origin</code>
+  </div>
+  <p>
+    This severs the browser's <code>opener</code> reference between windows, preventing any
+    external page from retaining control over your application's window after it has been opened.
+  </p>
+
+  <h2>References</h2>
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy" target="_blank">MDN — Cross-Origin-Opener-Policy</a></li>
+    <li><a href="https://web.dev/why-coop-coep/" target="_blank">web.dev — Why you need COOP & COEP</a></li>
+  </ul>
+</body>
+</html>
