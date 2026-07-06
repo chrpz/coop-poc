@@ -41,7 +41,7 @@
   function navigateAway() {
     if (win && !win.closed) {
       try {
-        win.location = 'https://<username>.github.io/<repo-name>/auth.html';
+        win.location = 'https://chrpz.github.io/coop-poc/auth.html';
       } catch (e) {
         // COOP is set — cross-origin navigation blocked (expected if fixed)
         document.getElementById('msg').textContent =
